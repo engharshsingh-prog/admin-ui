@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cirrel — Kiln & Leaf Admin Dashboard</title>
+  <meta name="description" content="Glassmorphism admin dashboard with smooth animations, real-time metrics, interactive charts, and ambient glowing orbs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <!-- Glowing Ambient Mesh Background Orbs -->
+  <div class="ambient-glow-container" aria-hidden="true">
+    <div class="glow-orb orb-amber" id="orbAmber"></div>
+    <div class="glow-orb orb-blue" id="orbBlue"></div>
+    <div class="glow-orb orb-mint" id="orbMint"></div>
+    <div class="glow-orb orb-violet" id="orbViolet"></div>
+    <div class="glow-orb orb-cyan" id="orbCyan"></div>
+  </div>
+
+  <!-- Noise Overlay for frosted glass texture -->
+  <div class="glass-noise-overlay" aria-hidden="true"></div>
+
+  <!-- Application Shell -->
+  <div class="dashboard-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="glass-sidebar" id="sidebar">
+      <!-- Brand Header -->
+      <div class="sidebar-header">
+        <div class="brand-badge">
+          <div class="brand-logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C6.5 2 2 6.5 2 12c0 5 3.5 9 8.5 9.8V15H8v-3h2.5V9.5C10.5 7 12 5.5 14.5 5.5c1.2 0 2.2.1 2.5.2v2.8h-1.6c-1.3 0-1.6.6-1.6 1.6V12H17l-.5 3h-2.7v6.8C18.5 21 22 17 22 12c0-5.5-4.5-10-10-10z" style="display:none;"/>
+              <!-- Organic leaf logo matching Kiln & Leaf -->
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-name">Cirrel</span>
+            <span class="brand-sub">Kiln & Leaf</span>
+          </div>
+        </div>
+        <button class="icon-btn-ghost sidebar-toggle" id="sidebarCollapseBtn" title="Toggle Sidebar (Cmd+B)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+            <path d="M9 3v18"/>
+            <path d="m14 9-3 3 3 3"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Search Capsule -->
+      <div class="sidebar-search-container">
+        <button class="search-capsule-btn" id="openSearchBtn">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+          <span class="search-placeholder">Search...</span>
+          <kbd class="shortcut-pill">⌘K</kbd>
+        </button>
+      </div>
+
+      <!-- Navigation Menus -->
+      <nav class="sidebar-nav custom-scrollbar">
+        <!-- SHOP SECTION -->
+        <div class="nav-section">
+          <span class="nav-section-title">SHOP</span>
+          <ul class="nav-list">
+            <li>
+              <a href="#dashboard" class="nav-link active" data-tab="dashboard">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="7" height="7" x="3" y="3" rx="1"/>
+                    <rect width="7" height="7" x="14" y="3" rx="1"/>
+                    <rect width="7" height="7" x="14" y="14" rx="1"/>
+                    <rect width="7" height="7" x="3" y="14" rx="1"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="#orders" class="nav-link" data-tab="orders">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                    <path d="M3 6h18"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Orders</span>
+                <span class="nav-badge" id="sidebarOrdersBadge">3</span>
+              </a>
+            </li>
+            <li>
+              <a href="#products" class="nav-link" data-tab="products">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m7.5 4.27 9 5.15"/>
+                    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                    <path d="m3.3 7 8.7 5 8.7-5"/>
+                    <path d="M12 22V12"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Products</span>
+                <span class="nav-badge" id="sidebarProductsBadge">6</span>
+              </a>
+            </li>
+            <li>
+              <a href="#analytics" class="nav-link" data-tab="analytics">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" x2="18" y1="20" y2="10"/>
+                    <line x1="12" x2="12" y1="20" y2="4"/>
+                    <line x1="6" x2="6" y1="20" y2="14"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Analytics</span>
+              </a>
+            </li>
+            <li>
+              <a href="#customers" class="nav-link" data-tab="customers">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Customers</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- MONEY SECTION -->
+        <div class="nav-section">
+          <span class="nav-section-title">MONEY</span>
+          <ul class="nav-list">
+            <li>
+              <a href="#finances" class="nav-link" data-tab="finances">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="5" rx="2"/>
+                    <line x1="2" x2="22" y1="10" y2="10"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Finances</span>
+              </a>
+            </li>
+            <li>
+              <a href="#invoices" class="nav-link" data-tab="invoices">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" x2="8" y1="13" y2="13"/>
+                    <line x1="16" x2="8" y1="17" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Invoices</span>
+              </a>
+            </li>
+            <li>
+              <a href="#discounts" class="nav-link" data-tab="discounts">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12.5 7.5 3 3"/>
+                    <path d="m7.5 12.5 3 3"/>
+                    <circle cx="9" cy="9" r="1"/>
+                    <circle cx="15" cy="15" r="1"/>
+                    <path d="M2.05 11.2a2 2 0 0 0 .58 1.41l7.8 7.8a2 2 0 0 0 2.83 0l8.36-8.36a2 2 0 0 0 .58-1.41V4a2 2 0 0 0-2-2h-7.64a2 2 0 0 0-1.41.59l-7.8 7.8a2 2 0 0 0-.58 1.41"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Discounts</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- TALK SECTION -->
+        <div class="nav-section">
+          <span class="nav-section-title">TALK</span>
+          <ul class="nav-list">
+            <li>
+              <a href="#chats" class="nav-link" data-tab="chats">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Chats</span>
+                <span class="nav-badge">1</span>
+              </a>
+            </li>
+            <li>
+              <a href="#email" class="nav-link" data-tab="email">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Email</span>
+                <span class="nav-badge">2</span>
+              </a>
+            </li>
+            <li>
+              <a href="#apps" class="nav-link" data-tab="apps">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="7" height="7" x="3" y="3" rx="1"/>
+                    <rect width="7" height="7" x="14" y="3" rx="1"/>
+                    <rect width="7" height="7" x="14" y="14" rx="1"/>
+                    <rect width="7" height="7" x="3" y="14" rx="1"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Apps</span>
+              </a>
+            </li>
+            <li>
+              <a href="#settings" class="nav-link" data-tab="settings">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Settings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <!-- Dark Mode Toggle Switch -->
+        <div class="theme-toggle-row">
+          <div class="theme-label-group">
+            <svg class="theme-icon moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+            <span class="theme-text">Dark mode</span>
+          </div>
+          <label class="switch-toggle" title="Toggle Light/Dark Theme">
+            <input type="checkbox" id="themeToggleCheckbox" checked>
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- User Profile Capsule -->
+        <div class="user-profile-capsule" id="userProfileBtn">
+          <div class="user-avatar">
+            <span>HS</span>
+          </div>
+          <div class="user-meta">
+            <span class="user-name">Harsh Singh</span>
+            <span class="user-email">harsh@kilnandleaf.co</span>
+          </div>
+          <button class="icon-btn-ghost user-switch-icon" title="Switch Account">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m7 15 5 5 5-5"/>
+              <path d="m7 9 5-5 5 5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="dashboard-main custom-scrollbar">
+      
+      <!-- Top Header Navigation -->
+      <header class="main-header glass-header">
+        <div class="header-left">
+          <h1 class="header-greeting">Good morning, Harsh</h1>
+          <div class="header-date-badge">
+            <span class="status-indicator-dot pulse"></span>
+            <span class="date-text" id="liveDateDisplay">Sunday, November 1 · Dashboard</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Live Stream Simulator Pill -->
+          <button class="live-stream-pill active" id="liveStreamToggleBtn" title="Toggle Real-Time Order Stream Simulator">
+            <span class="status-indicator-dot pulse-emerald"></span>
+            <span class="live-stream-label">Live Stream: ON</span>
+          </button>
+
+          <!-- Audio FX Toggle -->
+          <button class="header-action-btn audio-btn" id="audioToggleBtn" title="Sound Effects: ON">
+            <svg class="audio-on-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            </svg>
+            <svg class="audio-off-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <line x1="23" y1="9" x2="17" y2="15"/>
+              <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+          </button>
+
+          <!-- Header Search Trigger -->
+          <button class="header-action-btn search-trigger" id="headerSearchBtn" title="Search (⌘K)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
+            </svg>
+          </button>
+
+          <!-- Notification Bell with Dropdown Trigger -->
+          <div class="header-dropdown-wrap">
+            <button class="header-action-btn notification-btn" id="notificationsBtn" title="Notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+              </svg>
+              <span class="notification-badge" id="notifBadge">3</span>
+            </button>
+
+            <!-- Notifications Glass Dropdown -->
+            <div class="glass-dropdown notifications-dropdown" id="notificationsDropdown">
+              <div class="dropdown-header">
+                <h3>Notifications</h3>
+                <button class="text-link-sm" id="markAllReadBtn">Mark all read</button>
+              </div>
+              <div class="notifications-list" id="notifList">
+                <div class="notif-item unread">
+                  <div class="notif-dot blue"></div>
+                  <div class="notif-content">
+                    <p class="notif-text">New order <strong>KL-49960</strong> received from Elena Vance</p>
+                    <span class="notif-time">2 mins ago</span>
+                  </div>
+                </div>
+                <div class="notif-item unread">
+                  <div class="notif-dot amber"></div>
+                  <div class="notif-content">
+                    <p class="notif-text"><strong>Bergamot Grey</strong> reached 0 stock level</p>
+                    <span class="notif-time">18 mins ago</span>
+                  </div>
+                </div>
+                <div class="notif-item unread">
+                  <div class="notif-dot green"></div>
+                  <div class="notif-content">
+                    <p class="notif-text">Conversion rate reached <strong>2.8%</strong> this morning</p>
+                    <span class="notif-time">1 hour ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Primary + Create Action Button -->
+          <button class="btn-primary-shimmer" id="openCreateModalBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="M12 5v14"/>
+            </svg>
+            <span>Create</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW 1: DASHBOARD (Active View) -->
+      <div class="view-panel active" id="view-dashboard">
+        <!-- DASHBOARD BENTO GRID -->
+        <div class="bento-grid">
+
+        <!-- ==============================================
+             CARD 1: SALES STUDIO & KEY METRICS (Large 2-col)
+             ============================================== -->
+        <section class="glass-card card-sales-studio" id="cardSalesStudio">
+          
+          <!-- Integrated Top Stat Strip -->
+          <div class="stats-strip-row">
+            <!-- Stat 1: Today so far -->
+            <div class="stat-pill-box">
+              <span class="stat-box-title">Today so far</span>
+              <div class="stat-value-group">
+                <span class="stat-huge-number" id="valTodaySoFar">$244</span>
+              </div>
+              <div class="stat-delta-pill positive">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m18 15-6-6-6 6"/>
+                </svg>
+                <span>126%</span>
+                <span class="delta-label">vs last Sunday</span>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="stat-strip-divider"></div>
+
+            <!-- Stat 2: Last 7 days -->
+            <div class="stat-pill-box">
+              <span class="stat-box-title">Last 7 days</span>
+              <div class="stat-value-group">
+                <span class="stat-huge-number" id="valLast7Days">$6,413</span>
+              </div>
+              <div class="stat-delta-pill positive">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m18 15-6-6-6 6"/>
+                </svg>
+                <span>5.5%</span>
+                <span class="delta-label">vs the week before</span>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="stat-strip-divider"></div>
+
+            <!-- Stat 3: Orders today + Sparkline -->
+            <div class="stat-pill-box with-sparkline">
+              <div class="orders-stat-left">
+                <span class="stat-box-title">Orders today</span>
+                <div class="stat-value-group">
+                  <span class="stat-huge-number" id="valOrdersToday">6</span>
+                </div>
+                <div class="stat-delta-pill positive">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m18 15-6-6-6 6"/>
+                  </svg>
+                  <span>200%</span>
+                  <span class="delta-label">vs last Sunday</span>
+                </div>
+              </div>
+              <!-- Mini Sparkline SVG -->
+              <div class="mini-sparkline-wrap">
+                <svg width="90" height="36" viewBox="0 0 90 36" class="sparkline-svg">
+                  <defs>
+                    <linearGradient id="sparkGradient" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#3b82f6"/>
+                      <stop offset="100%" stop-color="#60a5fa"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M 2,28 Q 18,25 28,18 T 52,22 T 68,10 T 88,14" fill="none" stroke="url(#sparkGradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="sparkline-path"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart Header & Filter Controls -->
+          <div class="chart-header-row">
+            <div class="chart-meta">
+              <h2 class="section-title">Sales studio</h2>
+              <p class="section-subtitle" id="chartRangeSubtitle">
+                <span class="highlight-val" id="chartTotalSalesVal">$212,216</span> in this range · <span class="text-emerald">+28%</span> on the same stretch before
+              </p>
+            </div>
+
+            <!-- Interactive Range Pills -->
+            <div class="time-filter-pillgroup" role="tablist">
+              <button class="filter-pill active" data-range="last-year">Last year</button>
+              <button class="filter-pill" data-range="12m">12M</button>
+              <button class="filter-pill" data-range="6m">6M</button>
+              <button class="filter-pill" data-range="30d">30D</button>
+              <button class="filter-pill" data-range="7d">7D</button>
+            </div>
+          </div>
+
+          <!-- Interactive SVG Main Revenue Chart -->
+          <div class="chart-container" id="salesChartContainer">
+            <svg class="main-chart-svg" id="salesSvg" viewBox="0 0 800 300" preserveAspectRatio="none">
+              <defs>
+                <!-- Area Fill Gradient -->
+                <linearGradient id="chartAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#2563eb" stop-opacity="0.38"/>
+                  <stop offset="60%" stop-color="#2563eb" stop-opacity="0.08"/>
+                  <stop offset="100%" stop-color="#2563eb" stop-opacity="0.0"/>
+                </linearGradient>
+
+                <!-- Glowing Line Gradient -->
+                <linearGradient id="chartLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#38bdf8"/>
+                  <stop offset="40%" stop-color="#2563eb"/>
+                  <stop offset="85%" stop-color="#60a5fa"/>
+                  <stop offset="100%" stop-color="#93c5fd"/>
+                </linearGradient>
+
+                <!-- Comparison Line Gradient -->
+                <linearGradient id="compLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#6366f1" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#818cf8" stop-opacity="0.7"/>
+                </linearGradient>
+
+                <!-- Drop Glow Filter -->
+                <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <!-- Horizontal Grid Lines -->
+              <g class="grid-lines" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="3,4">
+                <line x1="45" y1="30" x2="790" y2="30"/>
+                <line x1="45" y1="90" x2="790" y2="90"/>
+                <line x1="45" y1="150" x2="790" y2="150"/>
+                <line x1="45" y1="210" x2="790" y2="210"/>
+                <line x1="45" y1="265" x2="790" y2="265"/>
+              </g>
+
+              <!-- Y Axis Value Labels -->
+              <g class="y-labels" fill="rgba(255,255,255,0.4)" font-size="11" font-family="'Plus Jakarta Sans', sans-serif">
+                <text x="5" y="34">$40k</text>
+                <text x="5" y="94">$30k</text>
+                <text x="5" y="154">$20k</text>
+                <text x="5" y="214">$10k</text>
+                <text x="18" y="269">$0</text>
+              </g>
+
+              <!-- Secondary Comparison Line (Dashed) -->
+              <path id="comparisonPath" class="comparison-path" d="" fill="none" stroke="url(#compLineGrad)" stroke-width="2" stroke-dasharray="4,4"/>
+
+              <!-- Primary Curve Area Fill -->
+              <path id="primaryAreaPath" class="chart-area-path" d="" fill="url(#chartAreaGrad)"/>
+
+              <!-- Primary Revenue Curve -->
+              <path id="primaryLinePath" class="chart-line-path" d="" fill="none" stroke="url(#chartLineGrad)" stroke-width="3" filter="url(#neonGlow)"/>
+
+              <!-- Interactive Hover Crosshair & Dots -->
+              <g id="chartHoverGroup" class="chart-hover-elements" opacity="0">
+                <line id="hoverCrosshair" x1="0" y1="20" x2="0" y2="265" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="3,3"/>
+                <circle id="hoverCompDot" cx="0" cy="0" r="4.5" fill="#818cf8" stroke="#0f172a" stroke-width="2"/>
+                <circle id="hoverPrimaryDot" cx="0" cy="0" r="6" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5" filter="url(#neonGlow)"/>
+              </g>
+            </svg>
+
+            <!-- X Axis Labels Container -->
+            <div class="x-axis-labels" id="xAxisLabels">
+              <span>Nov</span>
+              <span>Jan</span>
+              <span>Mar</span>
+              <span>May</span>
+              <span>Jul</span>
+              <span>Oct</span>
+            </div>
+
+            <!-- Floating Interactive Tooltip -->
+            <div class="chart-tooltip" id="chartTooltip">
+              <div class="tooltip-header" id="tooltipDate">March 2026</div>
+              <div class="tooltip-row primary-val">
+                <span class="dot-indicator blue"></span>
+                <span class="label">Revenue:</span>
+                <span class="val" id="tooltipRevenue">$28,450</span>
+              </div>
+              <div class="tooltip-row comparison-val">
+                <span class="dot-indicator purple"></span>
+                <span class="label">Prev Period:</span>
+                <span class="val" id="tooltipPrevRevenue">$21,200</span>
+              </div>
+              <div class="tooltip-badge positive" id="tooltipDelta">+34.2%</div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==============================================
+             CARD 2: NOVEMBER GOAL (Top Right)
+             ============================================== -->
+        <section class="glass-card card-goal" id="cardGoal">
+          <div class="card-header-row">
+            <div>
+              <h2 class="card-heading">November goal</h2>
+              <span class="card-subheading">29 days to go</span>
+            </div>
+            <button class="icon-btn-ghost" id="editGoalBtn" title="Edit November Target">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                <path d="m15 5 4 4"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="goal-content-flex">
+            <!-- Radial Circular Progress Gauge -->
+            <div class="circular-gauge-wrap">
+              <svg class="circular-gauge-svg" width="124" height="124" viewBox="0 0 120 120">
+                <defs>
+                  <linearGradient id="goalArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8"/>
+                    <stop offset="50%" stop-color="#34d399"/>
+                    <stop offset="100%" stop-color="#10b981"/>
+                  </linearGradient>
+                </defs>
+                <!-- Background track -->
+                <circle cx="60" cy="60" r="48" class="gauge-track-ring" stroke-width="11" fill="none"/>
+                <!-- Animated Progress Arc -->
+                <circle cx="60" cy="60" r="48" class="gauge-progress-ring" id="goalProgressRing" stroke-width="11" fill="none" stroke="url(#goalArcGrad)" stroke-linecap="round"/>
+              </svg>
+              <!-- Center Metric Text -->
+              <div class="gauge-center-text">
+                <span class="gauge-percent" id="goalPercentDisplay">1%</span>
+                <span class="gauge-target">of $24k</span>
+              </div>
+            </div>
+
+            <!-- Goal Breakdown Metrics -->
+            <div class="goal-metrics-table">
+              <div class="goal-metric-item">
+                <span class="metric-title">Booked</span>
+                <span class="metric-value" id="goalBookedVal">$244</span>
+              </div>
+              <div class="goal-metric-item">
+                <span class="metric-title">Daily pace needed</span>
+                <span class="metric-value highlight" id="goalPaceVal">$792</span>
+              </div>
+              <div class="goal-metric-item">
+                <span class="metric-title">October finished</span>
+                <span class="metric-value" id="goalOctFinishedVal">$24,677</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==============================================
+             CARD 3: LIVE STORE & VISITOR EQUALIZER (Middle Right)
+             ============================================== -->
+        <section class="glass-card card-live-store" id="cardLiveStore">
+          <div class="card-header-row">
+            <div class="live-status-pill">
+              <span class="status-indicator-dot pulse-emerald"></span>
+              <span class="live-status-title">Visitors right now</span>
+            </div>
+            <a href="#visitors" class="link-arrow" id="openVisitorsModal">
+              <span>Visitors</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17 17 7"/>
+                <path d="M7 7h10v10"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Live Visitors Count -->
+          <div class="live-visitor-count-group">
+            <span class="huge-live-number" id="liveVisitorCounter">38</span>
+            <span class="live-visitor-sub">on the site</span>
+          </div>
+
+          <!-- Animated Audio/Visitor Wave Equalizer Bars -->
+          <div class="live-wave-equalizer" id="equalizerContainer" title="Real-time traffic activity">
+            <!-- 28 Equalizer bars dynamically animated via JS/CSS -->
+          </div>
+
+          <!-- Live Store Breakdown Stats -->
+          <div class="live-store-stats-grid">
+            <div class="live-mini-stat">
+              <span class="stat-name">Carts open</span>
+              <span class="stat-num" id="liveCartsOpen">8</span>
+            </div>
+            <div class="live-mini-stat">
+              <span class="stat-name">Converting, 30 days</span>
+              <span class="stat-num">2.5%</span>
+            </div>
+            <div class="live-mini-stat span-full">
+              <span class="stat-name">Top page</span>
+              <span class="stat-link-val">Ceremonial Matcha ↗</span>
+            </div>
+          </div>
+
+          <!-- Checkout Health Pill -->
+          <div class="checkout-health-pill">
+            <span class="status-indicator-dot green-dot"></span>
+            <span class="health-text">Checkout healthy</span>
+          </div>
+        </section>
+
+
+        <!-- ==============================================
+             CARD 4: PACKING QUEUE (Bottom Left)
+             ============================================== -->
+        <section class="glass-card card-packing-queue" id="cardPackingQueue">
+          <div class="card-header-row">
+            <div>
+              <h2 class="card-heading">Packing queue</h2>
+              <span class="card-subheading" id="packingQueueSubtitle">3 orders paid and waiting</span>
+            </div>
+            <a href="#board" class="link-arrow">
+              <span>Board</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17 17 7"/>
+                <path d="M7 7h10v10"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Packing Orders List -->
+          <div class="order-queue-list" id="orderQueueList">
+            <!-- Item 1: Sofia Moreno -->
+            <div class="order-queue-item" data-id="kl-49959">
+              <div class="order-avatar avatar-amber">SM</div>
+              <div class="order-details">
+                <span class="customer-name">Sofia Moreno</span>
+                <span class="order-code">KL-49959 · 2 items</span>
+              </div>
+              <div class="order-price">$37.50</div>
+              <button class="btn-pack-status" data-action="pack">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m7.5 4.27 9 5.15"/>
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                  <path d="m3.3 7 8.7 5 8.7-5"/>
+                  <path d="M12 22V12"/>
+                </svg>
+                <span>Packed</span>
+              </button>
+            </div>
+
+            <!-- Item 2: Yara Moreno -->
+            <div class="order-queue-item" data-id="kl-49958">
+              <div class="order-avatar avatar-pink">YM</div>
+              <div class="order-details">
+                <span class="customer-name">Yara Moreno</span>
+                <span class="order-code">KL-49958 · 2 items</span>
+              </div>
+              <div class="order-price">$62.05</div>
+              <button class="btn-pack-status" data-action="pack">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m7.5 4.27 9 5.15"/>
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                  <path d="m3.3 7 8.7 5 8.7-5"/>
+                  <path d="M12 22V12"/>
+                </svg>
+                <span>Packed</span>
+              </button>
+            </div>
+
+            <!-- Item 3: Marcus Vance -->
+            <div class="order-queue-item" data-id="kl-49957">
+              <div class="order-avatar avatar-blue">MV</div>
+              <div class="order-details">
+                <span class="customer-name">Marcus Vance</span>
+                <span class="order-code">KL-49957 · 3 items</span>
+              </div>
+              <div class="order-price">$89.40</div>
+              <button class="btn-pack-status" data-action="pack">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m7.5 4.27 9 5.15"/>
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                  <path d="m3.3 7 8.7 5 8.7-5"/>
+                  <path d="M12 22V12"/>
+                </svg>
+                <span>Packed</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==============================================
+             CARD 5: RUNNING LOW (Bottom Center)
+             ============================================== -->
+        <section class="glass-card card-running-low" id="cardRunningLow">
+          <div class="card-header-row">
+            <div>
+              <h2 class="card-heading">Running low</h2>
+              <span class="card-subheading">At or below their reorder point</span>
+            </div>
+            <a href="#stock" class="link-arrow">
+              <span>Stock</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17 17 7"/>
+                <path d="M7 7h10v10"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="running-low-list" id="runningLowList">
+            <!-- Product 1: Bergamot Grey -->
+            <div class="low-stock-item" data-product="bergamot">
+              <div class="stock-item-icon leaf-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                </svg>
+              </div>
+              <div class="stock-item-info">
+                <div class="stock-name-row">
+                  <span class="product-title">Bergamot Grey</span>
+                </div>
+                <span class="stock-quantity-sub red-text" id="bergamotStockText">0 left · reorder at 40</span>
+                <!-- Progress track -->
+                <div class="stock-progress-track">
+                  <div class="stock-progress-fill empty" id="bergamotStockBar" style="width: 2%;"></div>
+                </div>
+              </div>
+              <button class="btn-restock" data-product="bergamot">Restock</button>
+            </div>
+
+            <!-- Product 2: Milk Oolong -->
+            <div class="low-stock-item" data-product="oolong">
+              <div class="stock-item-icon cup-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                  <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                  <line x1="6" x2="6" y1="2" y2="4"/>
+                  <line x1="10" x2="10" y1="2" y2="4"/>
+                  <line x1="14" x2="14" y1="2" y2="4"/>
+                </svg>
+              </div>
+              <div class="stock-item-info">
+                <div class="stock-name-row">
+                  <span class="product-title">Milk Oolong</span>
+                </div>
+                <span class="stock-quantity-sub amber-text" id="oolongStockText">9 left · reorder at 20</span>
+                <!-- Progress track -->
+                <div class="stock-progress-track">
+                  <div class="stock-progress-fill amber" id="oolongStockBar" style="width: 45%;"></div>
+                </div>
+              </div>
+              <button class="btn-restock" data-product="oolong">Restock</button>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==============================================
+             CARD 6: WHERE SALES CAME FROM (Bottom Right)
+             ============================================== -->
+        <section class="glass-card card-sales-sources" id="cardSalesSources">
+          <div class="card-header-row">
+            <div>
+              <h2 class="card-heading">Where sales came from</h2>
+              <span class="card-subheading">Last 30 days · $23,515</span>
+            </div>
+          </div>
+
+          <!-- Multi-Segmented Horizontal Progress Bar -->
+          <div class="segmented-progress-wrap">
+            <div class="segmented-bar" id="salesSegmentedBar">
+              <div class="seg-fill seg-web" style="width: 64%;" title="Web store: 64%"></div>
+              <div class="seg-fill seg-insta" style="width: 15%;" title="Instagram: 15%"></div>
+              <div class="seg-fill seg-tiktok" style="width: 12%;" title="TikTok Shop: 12%"></div>
+              <div class="seg-fill seg-other" style="width: 9%;" title="Other: 9%"></div>
+            </div>
+          </div>
+
+          <!-- Breakdown list -->
+          <div class="source-breakdown-list">
+            <div class="source-item">
+              <div class="source-label-group">
+                <span class="source-color-box bg-blue"></span>
+                <span class="source-name">Web store</span>
+              </div>
+              <div class="source-nums">
+                <span class="source-percent">64%</span>
+                <span class="source-dollar">$15,007</span>
+              </div>
+            </div>
+
+            <div class="source-item">
+              <div class="source-label-group">
+                <span class="source-color-box bg-amber"></span>
+                <span class="source-name">Instagram</span>
+              </div>
+              <div class="source-nums">
+                <span class="source-percent">15%</span>
+                <span class="source-dollar">$3,518</span>
+              </div>
+            </div>
+
+            <div class="source-item">
+              <div class="source-label-group">
+                <span class="source-color-box bg-cyan"></span>
+                <span class="source-name">TikTok Shop</span>
+              </div>
+              <div class="source-nums">
+                <span class="source-percent">12%</span>
+                <span class="source-dollar">$2,822</span>
+              </div>
+            </div>
+
+            <div class="source-item">
+              <div class="source-label-group">
+                <span class="source-color-box bg-purple"></span>
+                <span class="source-name">Direct & In-person</span>
+              </div>
+              <div class="source-nums">
+                <span class="source-percent">9%</span>
+                <span class="source-dollar">$2,168</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        </div><!-- End Bento Grid -->
+      </div><!-- End View 1: Dashboard -->
+
+      <!-- ==============================================
+           VIEW 2: ORDERS MANAGEMENT
+           ============================================== -->
+      <div class="view-panel" id="view-orders">
+        <div class="view-header-strip">
+          <div>
+            <h2 class="view-heading">Orders & Fulfillment</h2>
+            <p class="view-subheading">Manage packing, tracking and courier dispatches</p>
+          </div>
+          <div class="view-actions-group">
+            <button class="btn-ghost-glass" id="exportOrdersBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" x2="12" y1="15" y2="3"/>
+              </svg>
+              <span>Export CSV</span>
+            </button>
+            <button class="btn-primary-shimmer" onclick="document.getElementById('openCreateModalBtn').click()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="M12 5v14"/>
+              </svg>
+              <span>New Order</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-card table-container-card">
+          <!-- Filter & Search Toolbar -->
+          <div class="table-toolbar">
+            <div class="toolbar-filter-tabs" id="orderFilterTabs">
+              <button class="filter-pill active" data-filter="all">All Orders (24)</button>
+              <button class="filter-pill" data-filter="pending">Pending (3)</button>
+              <button class="filter-pill" data-filter="packed">Packed (5)</button>
+              <button class="filter-pill" data-filter="shipped">Shipped (16)</button>
+            </div>
+            <div class="table-search-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+              <input type="text" id="orderTableSearch" placeholder="Search order ID, customer...">
+            </div>
+          </div>
+
+          <!-- Glass Data Table -->
+          <div class="glass-table-wrapper">
+            <table class="glass-data-table" id="ordersDataTable">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date & Time</th>
+                  <th>Customer</th>
+                  <th>Items Purchased</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th class="text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+                <tr>
+                  <td><span class="code-badge">KL-49960</span></td>
+                  <td class="text-secondary">Just now</td>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-blue">EV</div>
+                      <span>Elena Vance</span>
+                    </div>
+                  </td>
+                  <td>2x Ceremonial Matcha (30g)</td>
+                  <td><span class="status-badge amber">Pending</span></td>
+                  <td class="cell-price">$84.00</td>
+                  <td class="text-right">
+                    <button class="btn-action-pill" onclick="handleTablePack(this, 'KL-49960')">Pack Item</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="code-badge">KL-49959</span></td>
+                  <td class="text-secondary">42 mins ago</td>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-amber">SM</div>
+                      <span>Sofia Moreno</span>
+                    </div>
+                  </td>
+                  <td>1x Bergamot Grey, 1x Honeybush</td>
+                  <td><span class="status-badge amber">Pending</span></td>
+                  <td class="cell-price">$37.50</td>
+                  <td class="text-right">
+                    <button class="btn-action-pill" onclick="handleTablePack(this, 'KL-49959')">Pack Item</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="code-badge">KL-49958</span></td>
+                  <td class="text-secondary">1 hour ago</td>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-pink">YM</div>
+                      <span>Yara Moreno</span>
+                    </div>
+                  </td>
+                  <td>2x Milk Oolong (High Mountain)</td>
+                  <td><span class="status-badge amber">Pending</span></td>
+                  <td class="cell-price">$62.05</td>
+                  <td class="text-right">
+                    <button class="btn-action-pill" onclick="handleTablePack(this, 'KL-49958')">Pack Item</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="code-badge">KL-49957</span></td>
+                  <td class="text-secondary">3 hours ago</td>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-blue">MV</div>
+                      <span>Marcus Vance</span>
+                    </div>
+                  </td>
+                  <td>1x Ceremonial Matcha, 1x Chasen Whisk</td>
+                  <td><span class="status-badge green">Shipped</span></td>
+                  <td class="cell-price">$89.40</td>
+                  <td class="text-right">
+                    <button class="btn-ghost-sm" onclick="showToast('Tracking', 'Tracking #DHL-99482701 delivered to courier', '🚚')">Track</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="code-badge">KL-49956</span></td>
+                  <td class="text-secondary">5 hours ago</td>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-amber">AL</div>
+                      <span>Aria Lin</span>
+                    </div>
+                  </td>
+                  <td>1x Genmaicha Roasted Green Tea</td>
+                  <td><span class="status-badge green">Shipped</span></td>
+                  <td class="cell-price">$26.00</td>
+                  <td class="text-right">
+                    <button class="btn-ghost-sm" onclick="showToast('Tracking', 'Tracking #USPS-44910283 in transit', '🚚')">Track</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="code-badge">KL-49955</span></td>
+                  <td class="text-secondary">Yesterday</td>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-pink">JD</div>
+                      <span>Julian Drake</span>
+                    </div>
+                  </td>
+                  <td>3x Sencha Superior (Organic)</td>
+                  <td><span class="status-badge green">Shipped</span></td>
+                  <td class="cell-price">$78.00</td>
+                  <td class="text-right">
+                    <button class="btn-ghost-sm" onclick="showToast('Tracking', 'Delivered yesterday 4:15 PM', '✅')">Track</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- End View 2: Orders -->
+
+      <!-- ==============================================
+           VIEW 3: PRODUCTS & INVENTORY
+           ============================================== -->
+      <div class="view-panel" id="view-products">
+        <div class="view-header-strip">
+          <div>
+            <h2 class="view-heading">Tea Collection & Inventory</h2>
+            <p class="view-subheading">Live inventory levels, batch roasts and warehouse thresholds</p>
+          </div>
+          <div class="view-actions-group">
+            <button class="btn-primary-shimmer" onclick="showToast('Product Studio', 'New harvest product wizard ready', '🍵')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="M12 5v14"/>
+              </svg>
+              <span>Add Tea</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="products-grid-layout">
+          <div class="glass-card product-showcase-card">
+            <div class="product-card-top">
+              <div class="tea-badge-icon matcha">🍵</div>
+              <span class="stock-pill in-stock">34 in stock</span>
+            </div>
+            <h3 class="product-card-name">Ceremonial Matcha</h3>
+            <span class="product-origin">Uji, Kyoto · First Harvest</span>
+            <p class="product-flavor-notes">Ultra-fine stone ground tencha, vibrant jade emerald, creamy umami finish.</p>
+            <div class="product-card-footer">
+              <span class="product-card-price">$42.00</span>
+              <button class="btn-restock" onclick="quickRestockPrompt('Ceremonial Matcha')">Restock</button>
+            </div>
+          </div>
+
+          <div class="glass-card product-showcase-card">
+            <div class="product-card-top">
+              <div class="tea-badge-icon oolong">🫖</div>
+              <span class="stock-pill low-stock" id="oolongCardPill">9 in stock</span>
+            </div>
+            <h3 class="product-card-name">Milk Oolong (Jin Xuan)</h3>
+            <span class="product-origin">Alishan, Taiwan · 1,400m Elevation</span>
+            <p class="product-flavor-notes">Silky sweet butter aroma, natural milky sweetness, floral gardenia notes.</p>
+            <div class="product-card-footer">
+              <span class="product-card-price">$24.00</span>
+              <button class="btn-restock" data-product="oolong">Restock</button>
+            </div>
+          </div>
+
+          <div class="glass-card product-showcase-card">
+            <div class="product-card-top">
+              <div class="tea-badge-icon black">🍂</div>
+              <span class="stock-pill out-of-stock" id="bergamotCardPill">0 in stock</span>
+            </div>
+            <h3 class="product-card-name">Bergamot Grey</h3>
+            <span class="product-origin">Ruhuna, Sri Lanka & Calabria</span>
+            <p class="product-flavor-notes">Single-estate black tea cold-pressed with organic Italian bergamot peel oil.</p>
+            <div class="product-card-footer">
+              <span class="product-card-price">$18.50</span>
+              <button class="btn-restock" data-product="bergamot">Restock</button>
+            </div>
+          </div>
+
+          <div class="glass-card product-showcase-card">
+            <div class="product-card-top">
+              <div class="tea-badge-icon roasted">🌾</div>
+              <span class="stock-pill in-stock">48 in stock</span>
+            </div>
+            <h3 class="product-card-name">Hojicha Roasted Green</h3>
+            <span class="product-origin">Shizuoka, Japan · Charcoal Roasted</span>
+            <p class="product-flavor-notes">Toasty caramel warmth, nutty aroma, virtually caffeine-free evening comfort.</p>
+            <div class="product-card-footer">
+              <span class="product-card-price">$19.00</span>
+              <button class="btn-restock" onclick="quickRestockPrompt('Hojicha Roasted')">Restock</button>
+            </div>
+          </div>
+
+          <div class="glass-card product-showcase-card">
+            <div class="product-card-top">
+              <div class="tea-badge-icon jasmine">🌸</div>
+              <span class="stock-pill in-stock">22 in stock</span>
+            </div>
+            <h3 class="product-card-name">Jasmine Dragon Pearls</h3>
+            <span class="product-origin">Fujian, China · Hand-rolled</span>
+            <p class="product-flavor-notes">Tender silvery bud tips scented with night-blooming fresh jasmine blossoms.</p>
+            <div class="product-card-footer">
+              <span class="product-card-price">$32.00</span>
+              <button class="btn-restock" onclick="quickRestockPrompt('Jasmine Dragon Pearls')">Restock</button>
+            </div>
+          </div>
+
+          <div class="glass-card product-showcase-card">
+            <div class="product-card-top">
+              <div class="tea-badge-icon herbal">🌿</div>
+              <span class="stock-pill in-stock">56 in stock</span>
+            </div>
+            <h3 class="product-card-name">High Mountain Chamomile</h3>
+            <span class="product-origin">Peloponnese, Greece · Whole Flowers</span>
+            <p class="product-flavor-notes">Sweet green apple fragrance, calming golden infusion with raw clover honey hints.</p>
+            <div class="product-card-footer">
+              <span class="product-card-price">$16.00</span>
+              <button class="btn-restock" onclick="quickRestockPrompt('High Mountain Chamomile')">Restock</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- End View 3: Products -->
+
+      <!-- ==============================================
+           VIEW 4: ANALYTICS & INSIGHTS
+           ============================================== -->
+      <div class="view-panel" id="view-analytics">
+        <div class="view-header-strip">
+          <div>
+            <h2 class="view-heading">Store Analytics & Growth</h2>
+            <p class="view-subheading">Conversion telemetry, customer cohort trends, and revenue attribution</p>
+          </div>
+        </div>
+
+        <div class="analytics-bento-grid">
+          <div class="glass-card analytics-card-funnel">
+            <h3 class="card-heading">30-Day Conversion Funnel</h3>
+            <span class="card-subheading">1,420 Shoppers reached catalog</span>
+            <div class="funnel-steps-list">
+              <div class="funnel-step">
+                <div class="funnel-meta">
+                  <span>Store Sessions</span>
+                  <strong>1,420 (100%)</strong>
+                </div>
+                <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width: 100%;"></div></div>
+              </div>
+              <div class="funnel-step">
+                <div class="funnel-meta">
+                  <span>Product Page View</span>
+                  <strong>890 (62.6%)</strong>
+                </div>
+                <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width: 62.6%;"></div></div>
+              </div>
+              <div class="funnel-step">
+                <div class="funnel-meta">
+                  <span>Add to Cart</span>
+                  <strong>145 (10.2%)</strong>
+                </div>
+                <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width: 28%;"></div></div>
+              </div>
+              <div class="funnel-step">
+                <div class="funnel-meta">
+                  <span>Completed Checkout</span>
+                  <strong>38 (2.67%)</strong>
+                </div>
+                <div class="funnel-bar-track"><div class="funnel-bar-fill final" style="width: 14%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card analytics-card-aov">
+            <h3 class="card-heading">Average Order Value</h3>
+            <span class="card-subheading">Basket size expansion</span>
+            <div class="stat-huge-number text-primary-gradient">$48.20</div>
+            <div class="stat-delta-pill positive" style="margin-top: 10px;">
+              <span>▲ +$6.40</span>
+              <span class="delta-label">vs previous 30 days</span>
+            </div>
+            <p class="stat-insight-text">Matcha whisk bundles drive 38% higher basket value upon checkout.</p>
+          </div>
+
+          <div class="glass-card analytics-card-regions">
+            <h3 class="card-heading">Top Shipping Regions</h3>
+            <span class="card-subheading">Global tea connoisseurs</span>
+            <div class="region-list">
+              <div class="region-item">
+                <span>🇺🇸 North America</span>
+                <span class="region-bar-pct">54%</span>
+              </div>
+              <div class="region-item">
+                <span>🇪🇺 European Union & UK</span>
+                <span class="region-bar-pct">28%</span>
+              </div>
+              <div class="region-item">
+                <span>🇯🇵 Japan & East Asia</span>
+                <span class="region-bar-pct">12%</span>
+              </div>
+              <div class="region-item">
+                <span>🇦🇺 Australia & Pacific</span>
+                <span class="region-bar-pct">6%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- End View 4: Analytics -->
+
+      <!-- ==============================================
+           VIEW 5: CUSTOMERS DIRECTORY
+           ============================================== -->
+      <div class="view-panel" id="view-customers">
+        <div class="view-header-strip">
+          <div>
+            <h2 class="view-heading">Customer Directory</h2>
+            <p class="view-subheading">Profiles, order frequency and loyalty memberships</p>
+          </div>
+        </div>
+
+        <div class="glass-card table-container-card">
+          <div class="glass-table-wrapper">
+            <table class="glass-data-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Tier</th>
+                  <th>Total Spent</th>
+                  <th>Orders</th>
+                  <th>Last Order</th>
+                  <th class="text-right">Contact</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-amber">SM</div>
+                      <div>
+                        <strong>Sofia Moreno</strong>
+                        <div class="text-muted text-xs">sofia.moreno@gmail.com</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="vip-pill emerald">Jade Connoisseur</span></td>
+                  <td><strong>$1,248.50</strong></td>
+                  <td>14 orders</td>
+                  <td class="text-secondary">Today</td>
+                  <td class="text-right"><button class="btn-ghost-sm" onclick="showToast('Email Client', 'Email composer launched for Sofia', '✉️')">Message</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-pink">YM</div>
+                      <div>
+                        <strong>Yara Moreno</strong>
+                        <div class="text-muted text-xs">yara.m@designstudio.io</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="vip-pill gold">Gold Member</span></td>
+                  <td><strong>$892.00</strong></td>
+                  <td>9 orders</td>
+                  <td class="text-secondary">Today</td>
+                  <td class="text-right"><button class="btn-ghost-sm" onclick="showToast('Email Client', 'Email composer launched for Yara', '✉️')">Message</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-blue">MV</div>
+                      <div>
+                        <strong>Marcus Vance</strong>
+                        <div class="text-muted text-xs">mvance@oxford.edu</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="vip-pill sapphire">Tea Master</span></td>
+                  <td><strong>$2,840.00</strong></td>
+                  <td>28 orders</td>
+                  <td class="text-secondary">3 hours ago</td>
+                  <td class="text-right"><button class="btn-ghost-sm" onclick="showToast('Email Client', 'Email composer launched for Marcus', '✉️')">Message</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="cell-user">
+                      <div class="order-avatar avatar-amber">EV</div>
+                      <div>
+                        <strong>Elena Vance</strong>
+                        <div class="text-muted text-xs">elena.vance@zenith.co</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="vip-pill gold">Gold Member</span></td>
+                  <td><strong>$640.00</strong></td>
+                  <td>6 orders</td>
+                  <td class="text-secondary">2 mins ago</td>
+                  <td class="text-right"><button class="btn-ghost-sm" onclick="showToast('Email Client', 'Email composer launched for Elena', '✉️')">Message</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- End View 5: Customers -->
+
+      <!-- ==============================================
+           VIEW 6: SETTINGS & GLASS CUSTOMIZER
+           ============================================== -->
+      <div class="view-panel" id="view-settings">
+        <div class="view-header-strip">
+          <div>
+            <h2 class="view-heading">Preferences & Glass Studio</h2>
+            <p class="view-subheading">Fine-tune glassmorphism blur, background mesh glow, and audio feedback</p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="glass-card settings-card">
+            <h3 class="card-heading">Glassmorphic Aesthetics</h3>
+            <p class="card-subheading">Adjust real-time GPU blur and ambient mesh intensity</p>
+            
+            <div class="setting-control-row">
+              <label>Frosted Glass Blur: <span id="blurValDisplay">28px</span></label>
+              <input type="range" id="sliderBlur" min="8" max="45" value="28" class="glass-slider">
+            </div>
+
+            <div class="setting-control-row">
+              <label>Ambient Orb Glow: <span id="glowValDisplay">100%</span></label>
+              <input type="range" id="sliderGlow" min="20" max="150" value="100" class="glass-slider">
+            </div>
+
+            <div class="setting-control-row">
+              <label>Film Noise Texture</label>
+              <label class="switch-toggle">
+                <input type="checkbox" id="toggleNoiseCheckbox" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="glass-card settings-card">
+            <h3 class="card-heading">Interactive Simulator</h3>
+            <p class="card-subheading">Control the real-time simulation engine</p>
+            
+            <div class="setting-control-row">
+              <label>Synthesized Audio FX (Web Audio API)</label>
+              <label class="switch-toggle">
+                <input type="checkbox" id="toggleSoundCheckbox" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-control-row">
+              <label>Live Sales Influx Simulator (every 10s)</label>
+              <label class="switch-toggle">
+                <input type="checkbox" id="toggleSimulatorCheckbox" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-actions-footer">
+              <button class="btn-ghost-secondary" onclick="resetDemoState()">Reset Demo Data</button>
+              <button class="btn-primary-shimmer" onclick="showToast('Settings Saved', 'Preferences saved to browser storage', '💾')">Save Preferences</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- End View 6: Settings -->
+    </main>
+  </div><!-- End Dashboard Layout -->
+
+  <!-- ==============================================
+       MODALS & OVERLAYS
+       ============================================== -->
+
+  <!-- 1. Quick Command Palette (⌘K) -->
+  <div class="modal-overlay" id="searchModal" aria-hidden="true">
+    <div class="glass-modal command-palette">
+      <div class="palette-input-wrap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="text" id="paletteInput" placeholder="Search orders, products, customers, actions..." autofocus>
+        <kbd class="shortcut-pill">ESC</kbd>
+      </div>
+      <div class="palette-results custom-scrollbar" id="paletteResults">
+        <div class="palette-group-title">QUICK JUMP</div>
+        <div class="palette-item active" data-action="goto-dashboard">
+          <span class="palette-icon">📊</span>
+          <div class="palette-item-text">
+            <span class="palette-item-title">Dashboard</span>
+            <span class="palette-item-sub">Overview of sales, inventory & live visits</span>
+          </div>
+          <span class="palette-badge">Page</span>
+        </div>
+        <div class="palette-item" data-action="goto-orders">
+          <span class="palette-icon">📦</span>
+          <div class="palette-item-text">
+            <span class="palette-item-title">Orders</span>
+            <span class="palette-item-sub">3 pending fulfillment</span>
+          </div>
+          <span class="palette-badge">Page</span>
+        </div>
+        <div class="palette-item" data-action="goto-products">
+          <span class="palette-icon">🍵</span>
+          <div class="palette-item-text">
+            <span class="palette-item-title">Products & Inventory</span>
+            <span class="palette-item-sub">Bergamot Grey, Milk Oolong, Matcha</span>
+          </div>
+          <span class="palette-badge">Inventory</span>
+        </div>
+        <div class="palette-group-title">ACTIONS</div>
+        <div class="palette-item" data-action="create-order">
+          <span class="palette-icon">➕</span>
+          <div class="palette-item-text">
+            <span class="palette-item-title">Create new order</span>
+            <span class="palette-item-sub">Manual checkout & packing item</span>
+          </div>
+          <kbd class="shortcut-pill">⌘N</kbd>
+        </div>
+        <div class="palette-item" data-action="restock-all">
+          <span class="palette-icon">⚡</span>
+          <div class="palette-item-text">
+            <span class="palette-item-title">Restock low inventory</span>
+            <span class="palette-item-sub">Auto-dispatch batch reorders</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Create Modal (+ Create Button) -->
+  <div class="modal-overlay" id="createModal" aria-hidden="true">
+    <div class="glass-modal create-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-badge-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="M12 5v14"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Quick Create</h3>
+            <p>Add a new record to your Kiln & Leaf store</p>
+          </div>
+        </div>
+        <button class="icon-btn-ghost close-modal-btn" id="closeCreateModalBtn">✕</button>
+      </div>
+
+      <div class="create-type-tabs">
+        <button class="create-tab active" data-type="order">New Order</button>
+        <button class="create-tab" data-type="product">New Product</button>
+        <button class="create-tab" data-type="discount">Discount Code</button>
+      </div>
+
+      <form id="quickCreateForm" class="create-form">
+        <div class="form-row">
+          <label>Customer Name</label>
+          <input type="text" id="inputCustomerName" placeholder="e.g. Maya Chen" required>
+        </div>
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label>Item / Product</label>
+            <select id="inputOrderProduct">
+              <option value="Ceremonial Matcha">Ceremonial Matcha ($42.00)</option>
+              <option value="Bergamot Grey">Bergamot Grey ($18.50)</option>
+              <option value="Milk Oolong">Milk Oolong ($24.00)</option>
+              <option value="Hojicha Roasted">Hojicha Roasted ($19.00)</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Quantity</label>
+            <input type="number" id="inputOrderQty" value="1" min="1" max="50">
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Total Price ($)</label>
+          <input type="number" step="0.01" id="inputOrderPrice" value="42.00" required>
+        </div>
+        <div class="modal-footer-actions">
+          <button type="button" class="btn-ghost-secondary close-modal-btn">Cancel</button>
+          <button type="submit" class="btn-primary-shimmer">Add to Queue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Restock Modal -->
+  <div class="modal-overlay" id="restockModal" aria-hidden="true">
+    <div class="glass-modal restock-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-badge-icon amber-glow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 id="restockProductTitle">Restock Product</h3>
+            <p id="restockProductSubtitle">Add inventory units to warehouse</p>
+          </div>
+        </div>
+        <button class="icon-btn-ghost close-modal-btn" id="closeRestockModalBtn">✕</button>
+      </div>
+      <form id="restockForm" class="create-form">
+        <div class="form-row">
+          <label>Units to receive</label>
+          <input type="number" id="restockQuantityInput" value="50" min="5" max="500">
+        </div>
+        <div class="form-row">
+          <label>Supplier Batch Note</label>
+          <input type="text" id="restockBatchNote" placeholder="PO-2026-NOV Batch #44">
+        </div>
+        <div class="modal-footer-actions">
+          <button type="button" class="btn-ghost-secondary close-modal-btn">Cancel</button>
+          <button type="submit" class="btn-primary-shimmer">Confirm Restock</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "glassy-admin-dashboard",
+  "version": "1.0.0",
+  "description": "Ultra-sleek glassy admin dashboard with fluid animations, interactive charts, and live metrics",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "glassmorphism",
+    "dashboard",
+    "admin-ui",
+    "animations",
+    "interactive"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
